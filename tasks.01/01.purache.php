@@ -1,8 +1,8 @@
 <?php
 
 $productName = readline("Име на продукт: ");
-$priceForOne = readline("Цена за брой: ");
-$quantity = readline("Количество: ");
+$priceForOne = (float) readline("Цена за брой: ");
+$quantity = (int) readline("Количество: ");
 $deliveryPrice = 5.99;
 
 $productsPrice = $priceForOne * $quantity;
