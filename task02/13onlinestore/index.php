@@ -1,6 +1,6 @@
 <?php
-include 'includes/header.php';
-include 'includes/navigation.php';
+require_once 'includes/header.php';
+require_once 'includes/navigation.php';
 
 $page = $_GET['page'] ?? 'index';
 
@@ -31,5 +31,5 @@ switch ($page) {
         break;
 }
 
-include 'includes/footer.php';
+require_once 'includes/footer.php';
 ?>

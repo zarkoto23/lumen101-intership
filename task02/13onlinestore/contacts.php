@@ -1,6 +1,6 @@
 <?php
-include 'includes/header.php';
-include 'includes/navigation.php';
+require_once 'includes/header.php';
+require_once 'includes/navigation.php';
 ?>
 
 <main>
@@ -9,4 +9,4 @@ include 'includes/navigation.php';
     <p>📱 +359 888 123 456</p>
 </main>
 
-<?php include 'includes/footer.php'; ?>
+<?php require_once 'includes/footer.php'; ?>

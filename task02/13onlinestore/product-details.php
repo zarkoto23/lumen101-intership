@@ -1,6 +1,6 @@
 <?php
-include 'functions/product-functions.php';
-include __DIR__ . '/data/products.php';
+require_once 'functions/product-functions.php';
+require_once __DIR__ . '/data/products.php';
 
 $id = $_GET['id'] ?? 0;
 $product = findProductById($products, (int) $id);
