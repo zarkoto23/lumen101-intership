@@ -1,21 +1,35 @@
 <?php
 include 'includes/header.php';
 include 'includes/navigation.php';
+
+$page = $_GET['page'] ?? 'index';
+
+switch ($page) {
+    case 'index':
+        ?>
+        <main>
+            <h1>Онлайн Магазин</h1>
+            <p>Добре дошли!</p>
+        </main>
+        <?php
+        break;
+
+    case 'products':
+        include 'products.php';
+        break;
+
+    case 'product-details':
+        include 'product-details.php';
+        break;
+
+    case 'contacts':
+        include 'contacts.php';
+        break;
+
+    default:
+        include '404.php';
+        break;
+}
+
+include 'includes/footer.php';
 ?>
-
-<main>
-<nav class="main-nav">
-    <div class="logo">
-        <a href="index.php">Онлайн Магазин</a>
-    </div>
-    <ul class="nav-links">
-        <li><a href="index.php">Начало</a></li>
-        <li><a href="products.php">Продукти</a></li>
-        <li><a href="contact.php">Контакти</a></li>
-    </ul>
-</nav>
-
-   
-</main>
-
-<?php include 'includes/footer.php'; ?>
