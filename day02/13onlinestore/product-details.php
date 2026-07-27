@@ -1,5 +1,8 @@
 <?php
 require_once 'functions/product-functions.php';
+require_once 'includes/header.php';
+
+require_once 'includes/navigation.php';
 require_once __DIR__ . '/data/products.php';
 
 $id = $_GET['id'] ?? 0;
@@ -34,5 +37,8 @@ if (!$product) {
     </main>
     <?php
 }
+
+require_once 'includes/footer.php';
+
 
 ?>

@@ -105,14 +105,14 @@ abstract class Product implements Discountable
         return number_format($this->price, 2) . ' €';
     }
 
-    public function reduceQuantity(int $quantity): bool
-    {
-        if ($quantity <= 0 || $this->quantity - $quantity < 0) {
-            return false;
-        }
-        $this->quantity -= $quantity;
-        return true;
-    }
+    // public function reduceQuantity(int $quantity): bool
+    // {
+    //     if ($quantity <= 0 || $this->quantity - $quantity < 0) {
+    //         return false;
+    //     }
+    //     $this->quantity -= $quantity;
+    //     return true;
+    // }
 
     public static function getCreatedProductsCount(): int
     {
@@ -127,15 +127,15 @@ abstract class Product implements Discountable
         return $this->price * 0.9;
     }
 
-    public function __toString(): string
-    {
-        return sprintf(
-            "ID: %d | %s | %.2f € | Наличност: %d | Категория: %s",
-            $this->id,
-            $this->name,
-            $this->price,
-            $this->quantity,
-            $this->category->getName()
-        );
-    }
+    // public function __toString(): string
+    // {
+    //     return sprintf(
+    //         "ID: %d | %s | %.2f € | Наличност: %d | Категория: %s",
+    //         $this->id,
+    //         $this->name,
+    //         $this->price,
+    //         $this->quantity,
+    //         $this->category->getName()
+    //     );
+    // }
 }
