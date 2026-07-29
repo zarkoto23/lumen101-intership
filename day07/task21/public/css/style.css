@@ -1,0 +1,379 @@
+* {
+    box-sizing: border-box;
+}
+
+
+body {
+    font-family: Arial, sans-serif;
+    background: #f1f5f9;
+    margin: 0;
+    padding: 30px;
+    color: #333;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+
+body > * {
+    width: 100%;
+    max-width: 900px;
+}
+
+
+/* Navigation */
+
+nav {
+    background: #1e293b;
+    padding: 15px 20px;
+    border-radius: 10px;
+    margin-bottom: 25px;
+    text-align: center;
+}
+
+
+nav a {
+    color: white;
+    text-decoration: none;
+    margin: 0 10px;
+    font-weight: bold;
+}
+
+
+nav a:hover {
+    color: #38bdf8;
+}
+
+
+/* Titles */
+
+h1 {
+    text-align: center;
+    color: #1e293b;
+    margin-bottom: 25px;
+}
+
+
+h3 {
+    background: white;
+    padding: 15px;
+    border-radius: 10px;
+    margin: 15px auto;
+}
+
+
+/* Forms */
+
+form {
+    background: white;
+    padding: 25px;
+    border-radius: 12px;
+    max-width: 600px;
+    margin: 20px auto;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+}
+
+
+label {
+    font-weight: bold;
+}
+
+
+input,
+textarea,
+select {
+
+    width: 100%;
+    padding: 12px;
+
+    margin: 8px 0 15px;
+
+    border: 1px solid #cbd5e1;
+
+    border-radius: 8px;
+
+    font-size: 15px;
+}
+
+
+textarea {
+    min-height: 120px;
+}
+
+
+/* Buttons */
+
+button,
+.btn {
+
+    display: inline-flex;
+
+    align-items: center;
+    justify-content: center;
+
+    height: 40px;
+
+    padding: 0 18px;
+
+    border-radius: 8px;
+
+    border: none;
+
+    cursor: pointer;
+
+    color: white;
+
+    text-decoration: none;
+
+    font-size: 14px;
+}
+
+
+
+button {
+    background: #2563eb;
+}
+
+
+button:hover {
+    background: #1d4ed8;
+}
+
+
+/* Generic button */
+
+.btn {
+
+    background: #2563eb;
+
+}
+
+
+.btn:hover {
+
+    background: #1d4ed8;
+
+}
+
+
+
+/* Cards */
+
+.course,
+.teacher {
+
+    background: white;
+
+    padding: 20px;
+
+    margin-bottom: 15px;
+
+    border-radius: 12px;
+
+    box-shadow: 0 3px 8px rgba(0,0,0,0.08);
+
+}
+
+
+
+/* Action buttons */
+
+.actions {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 10px;
+
+    margin-top: 15px;
+
+}
+
+
+
+.actions form {
+
+    margin: 0;
+
+    padding: 0;
+
+    background: transparent;
+
+    box-shadow: none;
+
+    width: auto;
+
+}
+
+
+
+/* View */
+
+.view-btn {
+
+    background: #0ea5e9;
+
+}
+
+
+.view-btn:hover {
+
+    background: #0284c7;
+
+}
+
+
+
+/* Edit */
+
+.edit-btn {
+
+    background: #f59e0b;
+
+}
+
+
+.edit-btn:hover {
+
+    background: #d97706;
+
+}
+
+
+
+/* Delete */
+
+.delete-btn {
+
+    background: #dc2626;
+
+}
+
+
+.delete-btn:hover {
+
+    background: #b91c1c;
+
+}
+
+
+
+/* Dashboard */
+
+.dashboard-grid {
+
+    display: grid;
+
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+
+    gap: 20px;
+
+    margin-top: 30px;
+
+}
+
+
+
+.dashboard-card {
+
+    background: white;
+
+    padding: 25px;
+
+    border-radius: 15px;
+
+    text-align: center;
+
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+
+}
+
+
+
+.dashboard-card h3 {
+
+    background: none;
+
+    padding: 0;
+
+    margin-bottom: 15px;
+
+    color: #475569;
+
+}
+
+
+
+.dashboard-card p {
+
+    font-size: 28px;
+
+    font-weight: bold;
+
+    color: #2563eb;
+
+}
+
+
+
+.dashboard-card strong {
+
+    display: block;
+
+    margin-top: 10px;
+
+    font-size: 20px;
+
+    color: #16a34a;
+
+}
+
+
+
+/* Messages */
+
+.success {
+
+    background: #dcfce7;
+
+    color: #166534;
+
+    padding: 15px;
+
+    border-radius: 8px;
+
+    margin-bottom: 20px;
+
+}
+
+
+
+.error {
+
+    background: #fee2e2;
+
+    color: #991b1b;
+
+    padding: 15px;
+
+    border-radius: 8px;
+
+    margin-bottom: 20px;
+
+}
+
+
+
+/* Pagination */
+
+.pagination {
+
+    display: flex;
+
+    justify-content: center;
+
+    margin-top: 20px;
+
+}
