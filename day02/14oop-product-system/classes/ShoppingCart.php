@@ -24,7 +24,7 @@ class ShoppingCart
         }
     }
 
-    public function removeProduct(int $productId, int $quantity = null): void
+    public function removeProduct(int $productId, ?int $quantity = null): void
     {
         if (!isset($this->items[$productId])) {
             throw new InvalidArgumentException('Продуктът не е в количката.');
