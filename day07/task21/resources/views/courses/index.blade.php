@@ -42,8 +42,13 @@
 
 
     <form method="GET" action="/courses">
+        <input type="text" name="teacher_search" placeholder="Search teacher..."
+            value="{{ request('teacher_search') }}">
 
         <input type="text" name="search" placeholder="Search course..." value="{{ request('search') }}">
+
+
+        <input type="number" name="min_price" placeholder="Price above..." value="{{ request('min_price') }}">
 
 
         <select name="teacher_id">

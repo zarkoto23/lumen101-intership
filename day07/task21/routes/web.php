@@ -9,8 +9,11 @@ Route::get('/', function () {
     return redirect('/dashboard');
 });
 
+
+
 Route::resource('teachers', TeacherController::class);
 
 Route::resource('courses', CourseController::class);
+
 
 Route::get('/dashboard', [DashboardController::class, 'index']);

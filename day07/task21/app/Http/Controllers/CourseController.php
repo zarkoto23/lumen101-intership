@@ -20,11 +20,21 @@ class CourseController extends Controller
       $query->where('name', 'like', '%' . $request->search . '%');
     }
 
+    if ($request->filled('teacher_search')) {
+      $query->whereHas('teacher', function ($q) use ($request) {
+        $q->where('first_name', 'like', '%' . $request->teacher_search . '%')
+          ->orWhere('last_name', 'like', '%' . $request->teacher_search . '%');
+      });
+    }
+
 
     if ($request->filled('teacher_id')) {
       $query->where('teacher_id', $request->teacher_id);
     }
 
+    if ($request->filled('min_price')) {
+      $query->where('price', '>', $request->min_price);
+    }
 
     if ($request->filled('sort')) {
 
@@ -38,7 +48,7 @@ class CourseController extends Controller
     }
 
 
-    $courses = $query->paginate(5);
+    $courses = $query->simplePaginate(5);
 
     $teachers = Teacher::all();
 
@@ -115,6 +125,8 @@ class CourseController extends Controller
     return redirect('/courses')
       ->with('success', 'Course updated successfully.');
   }
+
+
   /**
    * Remove the specified resource from storage.
    */

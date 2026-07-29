@@ -12,10 +12,12 @@ class TeacherController extends Controller
      */
     public function index()
     {
-        $teachers = Teacher::with('courses')->get();
+        $teachers = Teacher::with('courses')->paginate(5);
 
         return view('teachers.index', compact('teachers'));
     }
+
+
     /**
      * Show the form for creating a new resource.
      */
@@ -23,6 +25,7 @@ class TeacherController extends Controller
     {
         return view('teachers.create');
     }
+
 
     /**
      * Store a newly created resource in storage.
@@ -42,6 +45,7 @@ class TeacherController extends Controller
             ->with('success', 'Teacher created successfully.');
     }
 
+
     /**
      * Display the specified resource.
      */
@@ -52,6 +56,7 @@ class TeacherController extends Controller
         return view('teachers.show', compact('teacher'));
     }
 
+
     /**
      * Show the form for editing the specified resource.
      */
@@ -59,6 +64,8 @@ class TeacherController extends Controller
     {
         return view('teachers.edit', compact('teacher'));
     }
+
+
     /**
      * Update the specified resource in storage.
      */
@@ -77,12 +84,13 @@ class TeacherController extends Controller
             ->with('success', 'Teacher updated successfully.');
     }
 
+
     /**
      * Remove the specified resource from storage.
      */
     public function destroy(Teacher $teacher)
     {
-        if ($teacher->courses()->count() > 0) {
+        if ($teacher->courses()->exists()) {
             return redirect('/teachers')
                 ->with('error', 'Cannot delete teacher with assigned courses.');
         }

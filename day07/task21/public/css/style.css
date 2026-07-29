@@ -16,7 +16,7 @@ body {
 }
 
 
-body > * {
+body>* {
     width: 100%;
     max-width: 900px;
 }
@@ -71,7 +71,7 @@ form {
     border-radius: 12px;
     max-width: 600px;
     margin: 20px auto;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
 }
 
 
@@ -171,7 +171,7 @@ button:hover {
 
     border-radius: 12px;
 
-    box-shadow: 0 3px 8px rgba(0,0,0,0.08);
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.08);
 
 }
 
@@ -286,7 +286,7 @@ button:hover {
 
     text-align: center;
 
-    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 
 }
 
@@ -376,4 +376,54 @@ button:hover {
 
     margin-top: 20px;
 
+}
+
+/* Pagination */
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 30px;
+}
+
+
+.pagination nav {
+    background: transparent;
+    padding: 0;
+    margin: 0;
+}
+
+
+.pagination a,
+.pagination span {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    min-width: 35px;
+    height: 35px;
+
+    padding: 0 10px;
+
+    border-radius: 8px;
+
+    background: white;
+    color: #2563eb;
+
+    text-decoration: none;
+
+    font-size: 14px;
+}
+
+
+.pagination a:hover {
+    background: #2563eb;
+    color: white;
+}
+
+
+.pagination span[aria-current="page"] {
+    background: #2563eb;
+    color: white;
 }

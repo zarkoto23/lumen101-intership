@@ -111,6 +111,12 @@
 
 
 
+    <div class="pagination">
+        {{ $teachers->links() }}
+    </div>
+
+
+
 </body>
 
 </html>
