@@ -36,7 +36,6 @@
 
 
             @can('update', $project)
-
                 <div class="mt-6">
 
                     <a href="{{ route('projects.edit', $project) }}">
@@ -44,12 +43,10 @@
                     </a>
 
                 </div>
-
             @endcan
 
 
             @can('delete', $project)
-
                 <div class="mt-6">
 
                     <form method="POST" action="{{ route('projects.destroy', $project) }}">
@@ -64,7 +61,6 @@
                     </form>
 
                 </div>
-
             @endcan
 
 
@@ -79,17 +75,13 @@
                 <ul class="mt-4">
 
                     @foreach ($project->users as $user)
-
                         <li>
 
                             {{ $user->name }}
 
                             @can('update', $project)
-
                                 @if ($user->id !== $project->owner_id)
-
-                                    <form method="POST"
-                                        action="{{ route('projects.users.remove', [$project, $user]) }}"
+                                    <form method="POST" action="{{ route('projects.users.remove', [$project, $user]) }}"
                                         style="display:inline">
 
                                         @csrf
@@ -100,13 +92,10 @@
                                         </button>
 
                                     </form>
-
                                 @endif
-
                             @endcan
 
                         </li>
-
                     @endforeach
 
                 </ul>
@@ -115,9 +104,7 @@
 
                 @can('update', $project)
 
-                    <form method="POST"
-                        action="{{ route('projects.users.add', $project) }}"
-                        class="mt-6">
+                    <form method="POST" action="{{ route('projects.users.add', $project) }}" class="mt-6">
 
                         @csrf
 
@@ -130,15 +117,11 @@
                         <select name="user_id">
 
                             @foreach ($users as $user)
-
                                 @if (!$project->users->contains($user->id))
-
                                     <option value="{{ $user->id }}">
                                         {{ $user->name }}
                                     </option>
-
                                 @endif
-
                             @endforeach
 
                         </select>

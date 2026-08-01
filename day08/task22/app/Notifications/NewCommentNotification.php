@@ -13,8 +13,7 @@ class NewCommentNotification extends Notification
 
     public function __construct(
         public Comment $comment
-    ) {
-    }
+    ) {}
 
     public function via(object $notifiable): array
     {

@@ -15,8 +15,7 @@ class TaskAssignedNotification extends Notification
 
     public function __construct(
         public Task $task
-    ) {
-    }
+    ) {}
 
 
     public function via(object $notifiable): array

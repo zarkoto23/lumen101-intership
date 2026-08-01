@@ -9,26 +9,26 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-public function up(): void
-{
-    Schema::create('attachments', function (Blueprint $table) {
-        $table->id();
+    public function up(): void
+    {
+        Schema::create('attachments', function (Blueprint $table) {
+            $table->id();
 
-        $table->foreignId('task_id')
-            ->constrained()
-            ->cascadeOnDelete();
+            $table->foreignId('task_id')
+                ->constrained()
+                ->cascadeOnDelete();
 
-        $table->foreignId('user_id')
-            ->constrained()
-            ->cascadeOnDelete();
+            $table->foreignId('user_id')
+                ->constrained()
+                ->cascadeOnDelete();
 
-        $table->string('file_path');
+            $table->string('file_path');
 
-        $table->string('original_name');
+            $table->string('original_name');
 
-        $table->timestamps();
-    });
-}
+            $table->timestamps();
+        });
+    }
 
     /**
      * Reverse the migrations.

@@ -19,7 +19,6 @@
 
 
                 @forelse($tasks as $task)
-
                     <div class="mt-6 border p-4 rounded">
 
 
@@ -41,9 +40,7 @@
 
 
 
-                        <form method="POST"
-                              action="{{ route('tasks.restore', $task->id) }}"
-                              class="mt-4">
+                        <form method="POST" action="{{ route('tasks.restore', $task->id) }}" class="mt-4">
 
                             @csrf
                             @method('PATCH')
@@ -65,7 +62,6 @@
                     <p class="mt-4">
                         No deleted tasks.
                     </p>
-
                 @endforelse
 
 

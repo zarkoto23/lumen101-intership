@@ -16,107 +16,100 @@ use Illuminate\Support\Facades\Storage;
 
 class TaskController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
- public function index(Request $request)
-{
-    $projectIds = Auth::user()
-        ->projects()
-        ->pluck('projects.id');
+
+    public function index(Request $request)
+    {
+        $projectIds = Auth::user()
+            ->projects()
+            ->pluck('projects.id');
 
 
-    $tasks = Task::whereIn('project_id', $projectIds)
-        ->with([
-            'project',
-            'assignedUser'
-        ]);
+        $tasks = Task::whereIn('project_id', $projectIds)
+            ->with([
+                'project',
+                'assignedUser'
+            ]);
 
 
-    if ($request->filled('search')) {
+        if ($request->filled('search')) {
 
-        $tasks->where(
-            'title',
-            'like',
-            '%' . $request->search . '%'
+            $tasks->where(
+                'title',
+                'like',
+                '%' . $request->search . '%'
+            );
+        }
+
+
+        if ($request->filled('project_id')) {
+
+            $tasks->where(
+                'project_id',
+                $request->project_id
+            );
+        }
+
+
+        if ($request->filled('status')) {
+
+            $tasks->where(
+                'status',
+                $request->status
+            );
+        }
+
+
+        if ($request->filled('priority')) {
+
+            $tasks->where(
+                'priority',
+                $request->priority
+            );
+        }
+
+
+        if ($request->filled('assigned_to')) {
+
+            $tasks->where(
+                'assigned_to',
+                $request->assigned_to
+            );
+        }
+
+
+        $tasks->orderBy(
+            'deadline',
+            $request->sort ?? 'asc'
         );
 
+
+        $tasks = $tasks->paginate(5)
+            ->withQueryString();
+
+
+
+        $projects = Auth::user()
+            ->projects()
+            ->get();
+
+
+
+        $users = Auth::user()
+            ->projects()
+            ->with('users')
+            ->get()
+            ->pluck('users')
+            ->flatten()
+            ->unique('id');
+
+
+
+        return view('tasks.index', compact(
+            'tasks',
+            'projects',
+            'users'
+        ));
     }
-
-
-    if ($request->filled('project_id')) {
-
-        $tasks->where(
-            'project_id',
-            $request->project_id
-        );
-
-    }
-
-
-    if ($request->filled('status')) {
-
-        $tasks->where(
-            'status',
-            $request->status
-        );
-
-    }
-
-
-    if ($request->filled('priority')) {
-
-        $tasks->where(
-            'priority',
-            $request->priority
-        );
-
-    }
-
-
-    if ($request->filled('assigned_to')) {
-
-        $tasks->where(
-            'assigned_to',
-            $request->assigned_to
-        );
-
-    }
-
-
-    $tasks->orderBy(
-        'deadline',
-        $request->sort ?? 'asc'
-    );
-
-
-    $tasks = $tasks->paginate(5)
-        ->withQueryString();
-
-
-
-    $projects = Auth::user()
-        ->projects()
-        ->get();
-
-
-
-    $users = Auth::user()
-        ->projects()
-        ->with('users')
-        ->get()
-        ->pluck('users')
-        ->flatten()
-        ->unique('id');
-
-
-
-    return view('tasks.index', compact(
-        'tasks',
-        'projects',
-        'users'
-    ));
-}
 
     public function create()
     {
@@ -190,9 +183,7 @@ class TaskController extends Controller
             ->route('tasks.show', $task)
             ->with('success', 'Задачата е създадена успешно.');
     }
-    /**
-     * Display the specified resource.
-     */
+
     public function show(Task $task)
     {
         $this->authorize('view', $task);
@@ -208,9 +199,7 @@ class TaskController extends Controller
         return view('tasks.show', compact('task'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
+
     public function edit(Task $task)
     {
         $this->authorize('update', $task);
@@ -225,9 +214,7 @@ class TaskController extends Controller
         return view('tasks.edit', compact('task', 'projects'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
+
     public function update(UpdateTaskRequest $request, Task $task)
     {
         $this->authorize('update', $task);
@@ -291,9 +278,7 @@ class TaskController extends Controller
             ->route('tasks.show', $task)
             ->with('success', 'Задачата е обновена успешно.');
     }
-    /**
-     * Remove the specified resource from storage.
-     */
+
     public function destroy(Task $task)
     {
         $this->authorize('delete', $task);
@@ -324,38 +309,38 @@ class TaskController extends Controller
     }
 
     public function restore(Task $task)
-{
-    $this->authorize('restore', $task);
+    {
+        $this->authorize('restore', $task);
 
-    $task->restore();
+        $task->restore();
 
-    return redirect()
-        ->route('tasks.index')
-        ->with('success', 'Задачата е възстановена успешно.');
-}
+        return redirect()
+            ->route('tasks.index')
+            ->with('success', 'Задачата е възстановена успешно.');
+    }
 
-public function deleted()
-{
-    $tasks = Task::onlyTrashed()
-        ->whereHas('project.users', function ($query) {
-            $query->where('users.id', auth()->id());
-        })
-        ->paginate(10);
+    public function deleted()
+    {
+        $tasks = Task::onlyTrashed()
+            ->whereHas('project.users', function ($query) {
+                $query->where('users.id', auth()->id());
+            })
+            ->paginate(10);
 
-    return view('tasks.deleted', compact('tasks'));
-}
+        return view('tasks.deleted', compact('tasks'));
+    }
 
-public function kanban()
-{
-    $tasks = Auth::user()
-        ->projects()
-        ->with('tasks')
-        ->get()
-        ->pluck('tasks')
-        ->flatten()
-        ->groupBy('status');
+    public function kanban()
+    {
+        $tasks = Auth::user()
+            ->projects()
+            ->with('tasks')
+            ->get()
+            ->pluck('tasks')
+            ->flatten()
+            ->groupBy('status');
 
 
-    return view('tasks.kanban', compact('tasks'));
-}
+        return view('tasks.kanban', compact('tasks'));
+    }
 }

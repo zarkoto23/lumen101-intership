@@ -186,36 +186,34 @@
 
             <div class="mt-8">
 
-    <h2>
-        Status History
-    </h2>
+                <h2>
+                    Status History
+                </h2>
 
 
-    @foreach($task->statusHistories as $history)
+                @foreach ($task->statusHistories as $history)
+                    <div class="border p-3 mt-3">
 
-        <div class="border p-3 mt-3">
+                        <p>
+                            {{ $history->user->name }}
+                        </p>
 
-            <p>
-                {{ $history->user->name }}
-            </p>
-
-            <p>
-                {{ $history->old_status }}
-                →
-                {{ $history->new_status }}
-            </p>
-
-
-            <p>
-                {{ $history->created_at }}
-            </p>
-
-        </div>
-
-    @endforeach
+                        <p>
+                            {{ $history->old_status }}
+                            →
+                            {{ $history->new_status }}
+                        </p>
 
 
-</div>
+                        <p>
+                            {{ $history->created_at }}
+                        </p>
+
+                    </div>
+                @endforeach
+
+
+            </div>
 
         </div>
 

@@ -28,17 +28,17 @@ class AppServiceProvider extends ServiceProvider
     /**
      * Bootstrap any application services.
      */
-public function boot(): void
-{
-    Gate::policy(Project::class, ProjectPolicy::class);
-    Gate::policy(Task::class, TaskPolicy::class);
-    Gate::policy(Comment::class, CommentPolicy::class);
-    Gate::policy(Attachment::class, AttachmentPolicy::class);
+    public function boot(): void
+    {
+        Gate::policy(Project::class, ProjectPolicy::class);
+        Gate::policy(Task::class, TaskPolicy::class);
+        Gate::policy(Comment::class, CommentPolicy::class);
+        Gate::policy(Attachment::class, AttachmentPolicy::class);
 
 
-    Route::bind('project', function ($value) {
-        return Project::withTrashed()
-            ->findOrFail($value);
-    });
-}
+        Route::bind('project', function ($value) {
+            return Project::withTrashed()
+                ->findOrFail($value);
+        });
+    }
 }

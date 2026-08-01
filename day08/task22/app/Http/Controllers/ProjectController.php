@@ -150,8 +150,6 @@ class ProjectController extends Controller
             }
 
 
-            // НЕ махаме project_user
-            // защото restore трябва да върне проекта с участниците
 
 
             $project->delete();

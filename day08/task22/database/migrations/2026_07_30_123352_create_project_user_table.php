@@ -9,33 +9,33 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-public function up(): void
-{
-    Schema::create('project_user', function (Blueprint $table) {
-        $table->id();
+    public function up(): void
+    {
+        Schema::create('project_user', function (Blueprint $table) {
+            $table->id();
 
-        $table->foreignId('project_id')
-            ->constrained()
-            ->cascadeOnDelete();
+            $table->foreignId('project_id')
+                ->constrained()
+                ->cascadeOnDelete();
 
-        $table->foreignId('user_id')
-            ->constrained()
-            ->cascadeOnDelete();
+            $table->foreignId('user_id')
+                ->constrained()
+                ->cascadeOnDelete();
 
-        $table->enum('role', [
-            'manager',
-            'developer',
-            'tester'
-        ]);
+            $table->enum('role', [
+                'manager',
+                'developer',
+                'tester'
+            ]);
 
-        $table->timestamps();
+            $table->timestamps();
 
-        $table->unique([
-            'project_id',
-            'user_id'
-        ]);
-    });
-}
+            $table->unique([
+                'project_id',
+                'user_id'
+            ]);
+        });
+    }
 
     /**
      * Reverse the migrations.

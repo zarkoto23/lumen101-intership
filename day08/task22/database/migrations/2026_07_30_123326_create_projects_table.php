@@ -9,33 +9,33 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-public function up(): void
-{
-    Schema::create('projects', function (Blueprint $table) {
-        $table->id();
+    public function up(): void
+    {
+        Schema::create('projects', function (Blueprint $table) {
+            $table->id();
 
-        $table->foreignId('owner_id')
-            ->constrained('users')
-            ->cascadeOnDelete();
+            $table->foreignId('owner_id')
+                ->constrained('users')
+                ->cascadeOnDelete();
 
-        $table->string('name');
+            $table->string('name');
 
-        $table->text('description')->nullable();
+            $table->text('description')->nullable();
 
-        $table->date('start_date');
+            $table->date('start_date');
 
-        $table->date('deadline');
+            $table->date('deadline');
 
-        $table->enum('status', [
-            'active',
-            'completed'
-        ])->default('active');
+            $table->enum('status', [
+                'active',
+                'completed'
+            ])->default('active');
 
-        $table->timestamps();
+            $table->timestamps();
 
-        $table->softDeletes();
-    });
-}
+            $table->softDeletes();
+        });
+    }
 
     /**
      * Reverse the migrations.
