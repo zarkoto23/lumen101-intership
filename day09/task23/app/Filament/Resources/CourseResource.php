@@ -2,10 +2,9 @@
 
 namespace App\Filament\Resources;
 
+
 use App\Filament\Resources\CourseResource\Pages;
-use App\Filament\Resources\CourseResource\RelationManagers\SectionsRelationManager;
-use App\Filament\Resources\CourseResource\RelationManagers\AssignmentsRelationManager;
-use App\Filament\Resources\CourseResource\RelationManagers\EnrollmentsRelationManager;
+use App\Filament\Resources\CourseResource\RelationManagers;
 
 use App\Models\Course;
 use App\Models\User;
@@ -19,11 +18,11 @@ use Filament\Tables;
 use Filament\Tables\Table;
 
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Support\Str;
 
 
 class CourseResource extends Resource
 {
+
     protected static ?string $model = Course::class;
 
 
@@ -33,21 +32,22 @@ class CourseResource extends Resource
     protected static ?string $navigationGroup = 'Academy Management';
 
 
+    protected static ?string $navigationLabel = 'Courses';
+
+
 
     public static function form(Form $form): Form
     {
         return $form
+
             ->schema([
 
-
                 Forms\Components\Select::make('category_id')
-                    ->label('Category')
                     ->relationship(
                         'category',
                         'name'
                     )
                     ->required(),
-
 
 
                 Forms\Components\Select::make('instructor_id')
@@ -57,50 +57,38 @@ class CourseResource extends Resource
                             'role',
                             'instructor'
                         )
-                        ->pluck(
-                            'name',
-                            'id'
-                        )
+                            ->pluck(
+                                'name',
+                                'id'
+                            )
                     )
                     ->required(),
 
 
-
                 Forms\Components\TextInput::make('title')
                     ->required()
-                    ->live(onBlur: true)
-                    ->afterStateUpdated(
-                        fn ($state, callable $set) =>
-                        $set(
-                            'slug',
-                            Str::slug($state)
-                        )
-                    ),
-
+                    ->maxLength(255),
 
 
                 Forms\Components\TextInput::make('slug')
                     ->required()
-                    ->disabled()
-                    ->dehydrated(),
-
+                    ->unique(
+                        ignoreRecord: true
+                    ),
 
 
                 Forms\Components\Textarea::make('short_description')
-                    ->columnSpanFull(),
-
+                    ->rows(3),
 
 
                 Forms\Components\RichEditor::make('description')
                     ->columnSpanFull(),
 
 
-
                 Forms\Components\TextInput::make('price')
                     ->numeric()
                     ->minValue(0)
                     ->required(),
-
 
 
                 Forms\Components\Select::make('level')
@@ -116,10 +104,8 @@ class CourseResource extends Resource
                     ->required(),
 
 
-
                 Forms\Components\FileUpload::make('image')
                     ->image(),
-
 
 
                 Forms\Components\Select::make('status')
@@ -136,27 +122,22 @@ class CourseResource extends Resource
                         'rejected' => 'Rejected',
 
                     ])
-                    ->default('draft'),
-
+                    ->required(),
 
 
                 Forms\Components\DatePicker::make('start_date'),
-
 
 
                 Forms\Components\DatePicker::make('end_date')
                     ->after('start_date'),
 
 
-
                 Forms\Components\TextInput::make('maximum_students')
                     ->numeric()
-                    ->minValue(1)
-                    ->required(),
+                    ->minValue(1),
 
             ]);
     }
-
 
 
 
@@ -167,9 +148,7 @@ class CourseResource extends Resource
 
             ->columns([
 
-
                 Tables\Columns\ImageColumn::make('image'),
-
 
 
                 Tables\Columns\TextColumn::make('title')
@@ -177,37 +156,34 @@ class CourseResource extends Resource
                     ->sortable(),
 
 
-
                 Tables\Columns\TextColumn::make('category.name')
                     ->label('Category'),
-
 
 
                 Tables\Columns\TextColumn::make('instructor.name')
                     ->label('Instructor'),
 
 
-
                 Tables\Columns\TextColumn::make('price')
-                    ->money('EUR')
-                    ->sortable(),
-
+                    ->money('EUR'),
 
 
                 Tables\Columns\TextColumn::make('status')
                     ->badge(),
 
 
-
                 Tables\Columns\TextColumn::make('start_date')
                     ->date(),
 
+
+                Tables\Columns\TextColumn::make('enrollments_count')
+                    ->counts('enrollments')
+                    ->label('Students'),
 
             ])
 
 
             ->filters([
-
 
                 Tables\Filters\SelectFilter::make('status')
                     ->options([
@@ -224,45 +200,25 @@ class CourseResource extends Resource
 
                     ]),
 
-
-
-                Tables\Filters\TrashedFilter::make(),
-
-
             ])
-
 
 
             ->actions([
 
-
                 Tables\Actions\EditAction::make(),
 
-
                 Tables\Actions\DeleteAction::make(),
-
-
-                Tables\Actions\RestoreAction::make(),
-
 
             ])
 
 
-
             ->bulkActions([
-
 
                 Tables\Actions\BulkActionGroup::make([
 
-
                     Tables\Actions\DeleteBulkAction::make(),
 
-
-                    Tables\Actions\RestoreBulkAction::make(),
-
-
                 ]),
-
 
             ]);
     }
@@ -270,41 +226,42 @@ class CourseResource extends Resource
 
 
 
+    public static function getEloquentQuery(): Builder
+    {
+        $query = parent::getEloquentQuery();
 
-public static function getEloquentQuery(): \Illuminate\Database\Eloquent\Builder
-{
-    $query = parent::getEloquentQuery();
+
+        if (
+            auth()->check()
+            &&
+            auth()->user()->isInstructor()
+        ) {
+
+            $query->where(
+                'instructor_id',
+                auth()->id()
+            );
+        }
 
 
-    if (
-        auth()->check()
-        &&
-        auth()->user()->isInstructor()
-    ) {
-
-        $query->where(
-            'instructor_id',
-            auth()->id()
-        );
-
+        return $query;
     }
 
 
-    return $query;
-}
 
-public static function getRelations(): array
-{
-    return [
 
-        SectionsRelationManager::class,
+    public static function getRelations(): array
+    {
+        return [
 
-        AssignmentsRelationManager::class,
+            RelationManagers\SectionsRelationManager::class,
 
-        EnrollmentsRelationManager::class,
+            RelationManagers\AssignmentsRelationManager::class,
 
-    ];
-}
+            RelationManagers\EnrollmentsRelationManager::class,
+
+        ];
+    }
 
 
 
@@ -321,11 +278,4 @@ public static function getRelations(): array
 
         ];
     }
-
-    public static function canAccess(): bool
-{
-    return auth()->user()?->isAdmin()
-        ||
-        auth()->user()?->isInstructor();
-}
 }

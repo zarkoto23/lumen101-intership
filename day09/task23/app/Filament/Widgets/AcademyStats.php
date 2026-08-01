@@ -2,8 +2,8 @@
 
 namespace App\Filament\Widgets;
 
-use App\Models\Course;
 use App\Models\User;
+use App\Models\Course;
 use App\Models\Enrollment;
 use App\Models\Payment;
 
@@ -13,44 +13,42 @@ use Filament\Widgets\StatsOverviewWidget\Stat;
 
 class AcademyStats extends BaseWidget
 {
+
     protected function getStats(): array
     {
         return [
 
             Stat::make(
-                'Courses',
-                Course::count()
-            )
-            ->description('Total courses'),
+                'Students',
+                User::where('role', 'student')->count()
+            ),
 
 
             Stat::make(
-                'Students',
-                User::where(
-                    'role',
-                    'student'
-                )->count()
-            )
-            ->description('Registered students'),
+                'Instructors',
+                User::where('role', 'instructor')->count()
+            ),
+
+
+            Stat::make(
+                'Published Courses',
+                Course::where('status', 'published')->count()
+            ),
 
 
             Stat::make(
                 'Enrollments',
                 Enrollment::count()
-            )
-            ->description('Total enrollments'),
+            ),
 
 
             Stat::make(
                 'Revenue',
-                Payment::where(
-                    'status',
-                    'paid'
-                )
-                ->sum('amount') . ' EUR'
-            )
-            ->description('Paid payments'),
+                Payment::where('status', 'paid')
+                    ->sum('amount') . ' EUR'
+            ),
 
         ];
     }
+
 }

@@ -2,22 +2,15 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 use Illuminate\Foundation\Auth\User as Authenticatable;
-
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Notifications\Notifiable;
 
-use Filament\Models\Contracts\FilamentUser;
 
-use Filament\Panel;
-
-use Illuminate\Database\Eloquent\Relations\HasMany;
-
-
-
-class User extends Authenticatable implements FilamentUser
+class User extends Authenticatable
 {
+
     use HasFactory, Notifiable;
 
 
@@ -33,45 +26,39 @@ class User extends Authenticatable implements FilamentUser
     ];
 
 
-
     protected $hidden = [
+
         'password',
+
         'remember_token',
+
     ];
 
 
 
-    protected function casts(): array
+    protected $casts = [
+
+        'password' => 'hashed',
+
+        'is_active' => 'boolean',
+
+    ];
+
+
+
+
+    public function enrollments()
     {
-        return [
-
-            'email_verified_at' => 'datetime',
-
-            'password' => 'hashed',
-
-            'is_active' => 'boolean',
-
-        ];
+        return $this->hasMany(
+            Enrollment::class,
+            'student_id'
+        );
     }
 
 
 
 
-public function canAccessPanel(Panel $panel): bool
-{
-    return in_array(
-        $this->role,
-        [
-            'admin',
-            'instructor',
-        ]
-    );
-}
-
-
-
-
-    public function courses(): HasMany
+    public function courses()
     {
         return $this->hasMany(
             Course::class,
@@ -83,31 +70,7 @@ public function canAccessPanel(Panel $panel): bool
 
 
 
-    public function enrollments(): HasMany
-    {
-        return $this->hasMany(
-            Enrollment::class,
-            'student_id'
-        );
-    }
-
-
-
-
-
-    public function assignmentSubmissions(): HasMany
-    {
-        return $this->hasMany(
-            AssignmentSubmission::class,
-            'student_id'
-        );
-    }
-
-
-
-
-
-    public function isAdmin(): bool
+    public function isAdmin()
     {
         return $this->role === 'admin';
     }
@@ -116,7 +79,7 @@ public function canAccessPanel(Panel $panel): bool
 
 
 
-    public function isInstructor(): bool
+    public function isInstructor()
     {
         return $this->role === 'instructor';
     }
@@ -125,8 +88,22 @@ public function canAccessPanel(Panel $panel): bool
 
 
 
-    public function isStudent(): bool
+    public function isStudent()
     {
         return $this->role === 'student';
+    }
+
+    public function canAccessPanel(\Filament\Panel $panel): bool
+    {
+
+        return in_array(
+            $this->role,
+            [
+                'admin',
+                'instructor'
+            ]
+        )
+            &&
+            $this->is_active;
     }
 }

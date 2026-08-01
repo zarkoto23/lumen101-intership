@@ -2,7 +2,9 @@
 
 namespace App\Filament\Resources;
 
+
 use App\Filament\Resources\AssignmentResource\Pages;
+
 use App\Models\Assignment;
 
 use Filament\Forms;
@@ -14,8 +16,10 @@ use Filament\Tables;
 use Filament\Tables\Table;
 
 
+
 class AssignmentResource extends Resource
 {
+
     protected static ?string $model = Assignment::class;
 
 
@@ -26,50 +30,70 @@ class AssignmentResource extends Resource
 
 
 
+
     public static function form(Form $form): Form
     {
-        return $form
-            ->schema([
 
-
-                Forms\Components\Select::make('course_id')
-                    ->relationship(
-                        'course',
-                        'title'
-                    )
-                    ->required(),
+        return $form->schema([
 
 
 
-                Forms\Components\TextInput::make('title')
-                    ->required(),
+            Forms\Components\Select::make('course_id')
+
+                ->relationship(
+                    'course',
+                    'title'
+                )
+
+                ->required(),
 
 
 
-                Forms\Components\Textarea::make('description')
-                    ->columnSpanFull(),
+
+
+            Forms\Components\TextInput::make('title')
+
+                ->required(),
 
 
 
-                Forms\Components\DateTimePicker::make('deadline'),
+
+
+            Forms\Components\Textarea::make('description'),
 
 
 
-                Forms\Components\TextInput::make('maximum_points')
-                    ->numeric()
-                    ->default(100),
+
+
+            Forms\Components\DateTimePicker::make('deadline'),
 
 
 
-                Forms\Components\FileUpload::make('attachment_path'),
+
+
+            Forms\Components\TextInput::make('maximum_points')
+
+                ->numeric()
+
+                ->required(),
 
 
 
-                Forms\Components\Toggle::make('is_required')
-                    ->default(true),
 
-            ]);
+            Forms\Components\FileUpload::make('attachment_path'),
+
+
+
+
+
+            Forms\Components\Toggle::make('is_required'),
+
+
+
+        ]);
+
     }
+
 
 
 
@@ -77,23 +101,31 @@ class AssignmentResource extends Resource
 
     public static function table(Table $table): Table
     {
+
         return $table
+
             ->columns([
 
 
+
                 Tables\Columns\TextColumn::make('title')
-                    ->searchable()
-                    ->sortable(),
+
+                    ->searchable(),
+
 
 
 
                 Tables\Columns\TextColumn::make('course.title')
+
                     ->label('Course'),
 
 
 
+
                 Tables\Columns\TextColumn::make('deadline')
+
                     ->dateTime(),
+
 
 
 
@@ -101,15 +133,10 @@ class AssignmentResource extends Resource
 
 
 
-                Tables\Columns\IconColumn::make('is_required')
-                    ->boolean(),
-
-
             ])
 
-            ->filters([
 
-            ])
+
 
             ->actions([
 
@@ -118,7 +145,9 @@ class AssignmentResource extends Resource
                 Tables\Actions\DeleteAction::make(),
 
             ]);
+
     }
+
 
 
 
@@ -126,14 +155,18 @@ class AssignmentResource extends Resource
 
     public static function getPages(): array
     {
+
         return [
 
-            'index' => Pages\ListAssignments::route('/'),
+            'index'=>Pages\ListAssignments::route('/'),
 
-            'create' => Pages\CreateAssignment::route('/create'),
+            'create'=>Pages\CreateAssignment::route('/create'),
 
-            'edit' => Pages\EditAssignment::route('/{record}/edit'),
+            'edit'=>Pages\EditAssignment::route('/{record}/edit'),
 
         ];
+
     }
+
+
 }

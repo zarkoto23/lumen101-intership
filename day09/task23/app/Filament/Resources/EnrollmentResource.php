@@ -2,7 +2,9 @@
 
 namespace App\Filament\Resources;
 
+
 use App\Filament\Resources\EnrollmentResource\Pages;
+
 use App\Models\Enrollment;
 
 use Filament\Forms;
@@ -14,8 +16,10 @@ use Filament\Tables;
 use Filament\Tables\Table;
 
 
+
 class EnrollmentResource extends Resource
 {
+
     protected static ?string $model = Enrollment::class;
 
 
@@ -25,59 +29,77 @@ class EnrollmentResource extends Resource
     protected static ?string $navigationGroup = 'Academy Management';
 
 
+    protected static ?string $navigationLabel = 'Enrollments';
+
+
+
 
     public static function form(Form $form): Form
     {
-        return $form
-            ->schema([
+
+        return $form->schema([
 
 
-                Forms\Components\Select::make('course_id')
-                    ->relationship(
-                        'course',
-                        'title'
-                    )
-                    ->required(),
+            Forms\Components\Select::make('course_id')
 
+                ->relationship(
+                    'course',
+                    'title'
+                )
 
-
-                Forms\Components\Select::make('student_id')
-                    ->relationship(
-                        'student',
-                        'name'
-                    )
-                    ->required(),
+                ->required(),
 
 
 
-                Forms\Components\Select::make('status')
-                    ->options([
 
-                        'pending' => 'Pending',
+            Forms\Components\Select::make('student_id')
 
-                        'active' => 'Active',
+                ->relationship(
+                    'student',
+                    'name'
+                )
 
-                        'completed' => 'Completed',
-
-                        'cancelled' => 'Cancelled',
-
-                    ])
-                    ->required(),
+                ->required(),
 
 
 
-                Forms\Components\DateTimePicker::make('enrolled_at'),
+
+            Forms\Components\Select::make('status')
+
+                ->options([
+
+                    'pending'=>'Pending',
+
+                    'active'=>'Active',
+
+                    'completed'=>'Completed',
+
+                    'cancelled'=>'Cancelled',
+
+                ])
+
+                ->required(),
 
 
 
-                Forms\Components\DateTimePicker::make('completed_at'),
+
+            Forms\Components\DateTimePicker::make('enrolled_at'),
 
 
 
-                Forms\Components\TextInput::make('final_grade')
-                    ->numeric(),
 
-            ]);
+            Forms\Components\DateTimePicker::make('completed_at'),
+
+
+
+
+            Forms\Components\TextInput::make('final_grade')
+
+                ->numeric(),
+
+
+        ]);
+
     }
 
 
@@ -86,24 +108,35 @@ class EnrollmentResource extends Resource
 
     public static function table(Table $table): Table
     {
+
         return $table
 
             ->columns([
 
 
+
                 Tables\Columns\TextColumn::make('student.name')
+
                     ->label('Student')
+
                     ->searchable(),
 
 
 
+
                 Tables\Columns\TextColumn::make('course.title')
-                    ->label('Course'),
+
+                    ->label('Course')
+
+                    ->searchable(),
+
 
 
 
                 Tables\Columns\TextColumn::make('status')
+
                     ->badge(),
+
 
 
 
@@ -111,10 +144,14 @@ class EnrollmentResource extends Resource
 
 
 
+
                 Tables\Columns\TextColumn::make('enrolled_at')
+
                     ->dateTime(),
 
+
             ])
+
 
 
 
@@ -122,26 +159,24 @@ class EnrollmentResource extends Resource
 
 
                 Tables\Filters\SelectFilter::make('status')
+
                     ->options([
 
-                        'pending' => 'Pending',
+                        'pending'=>'Pending',
 
-                        'active' => 'Active',
+                        'active'=>'Active',
 
-                        'completed' => 'Completed',
+                        'completed'=>'Completed',
 
-                        'cancelled' => 'Cancelled',
+                        'cancelled'=>'Cancelled',
 
                     ]),
 
 
             ])
 
-            ->headerActions([
 
-    Tables\Actions\CreateAction::make(),
 
-])
 
             ->actions([
 
@@ -150,6 +185,7 @@ class EnrollmentResource extends Resource
                 Tables\Actions\DeleteAction::make(),
 
             ]);
+
     }
 
 
@@ -158,18 +194,18 @@ class EnrollmentResource extends Resource
 
     public static function getPages(): array
     {
+
         return [
 
-            'index' => Pages\ListEnrollments::route('/'),
+            'index'=>Pages\ListEnrollments::route('/'),
 
-            'create' => Pages\CreateEnrollment::route('/create'),
+            'create'=>Pages\CreateEnrollment::route('/create'),
 
-            'edit' => Pages\EditEnrollment::route('/{record}/edit'),
+            'edit'=>Pages\EditEnrollment::route('/{record}/edit'),
 
         ];
+
     }
-    public static function canAccess(): bool
-{
-    return auth()->user()?->isAdmin();
-}
+
+
 }

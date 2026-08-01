@@ -2,45 +2,58 @@
 
 namespace App\Models;
 
+
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 
 class AssignmentSubmission extends Model
 {
+
     use HasFactory;
 
 
 
     protected $fillable = [
+
         'assignment_id',
+
         'student_id',
+
         'file_path',
+
         'comment',
-        'status',
-        'points',
-        'instructor_feedback',
+
         'submitted_at',
+
+        'status',
+
+        'points',
+
+        'instructor_feedback',
+
         'graded_at',
+
     ];
+
+
 
 
 
     protected $casts = [
 
-        'submitted_at' => 'datetime',
+        'submitted_at'=>'datetime',
 
-        'graded_at' => 'datetime',
-
-        'points' => 'decimal:2',
+        'graded_at'=>'datetime',
 
     ];
 
 
 
-    public function assignment(): BelongsTo
+
+
+    public function assignment()
     {
         return $this->belongsTo(
             Assignment::class
@@ -49,11 +62,15 @@ class AssignmentSubmission extends Model
 
 
 
-    public function student(): BelongsTo
+
+
+    public function student()
     {
         return $this->belongsTo(
             User::class,
             'student_id'
         );
     }
+
+
 }

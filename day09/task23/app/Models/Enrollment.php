@@ -2,60 +2,102 @@
 
 namespace App\Models;
 
+
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\HasOne;
+
 
 
 class Enrollment extends Model
 {
+
     use HasFactory;
 
 
+
     protected $fillable = [
+
         'course_id',
+
         'student_id',
+
         'status',
+
         'enrolled_at',
+
         'completed_at',
+
         'final_grade',
+
     ];
+
+
+
 
 
     protected $casts = [
-        'enrolled_at' => 'datetime',
-        'completed_at' => 'datetime',
-        'final_grade' => 'decimal:2',
+
+        'enrolled_at'=>'datetime',
+
+        'completed_at'=>'datetime',
+
     ];
 
 
-    public function course(): BelongsTo
+
+
+
+    public function course()
     {
-        return $this->belongsTo(Course::class);
+        return $this->belongsTo(
+            Course::class
+        );
     }
 
 
-    public function student(): BelongsTo
+
+
+
+    public function student()
     {
-        return $this->belongsTo(User::class, 'student_id');
+        return $this->belongsTo(
+            User::class,
+            'student_id'
+        );
     }
 
 
-    public function progress(): HasMany
+
+
+
+    public function lessonProgress()
     {
-        return $this->hasMany(LessonProgress::class);
+        return $this->hasMany(
+            LessonProgress::class
+        );
     }
 
-    public function payment(): HasOne
-{
-    return $this->hasOne(Payment::class);
-}
 
 
-public function certificate(): HasOne
-{
-    return $this->hasOne(Certificate::class);
-}
+
+
+    public function payment()
+    {
+        return $this->hasOne(
+            Payment::class
+        );
+    }
+
+
+
+
+
+    public function certificate()
+    {
+        return $this->hasOne(
+            Certificate::class
+        );
+    }
+
+
 }

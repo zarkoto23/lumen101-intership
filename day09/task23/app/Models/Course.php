@@ -2,53 +2,78 @@
 
 namespace App\Models;
 
+
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 
 
 class Course extends Model
 {
+
     use HasFactory, SoftDeletes;
 
 
+
     protected $fillable = [
+
         'category_id',
+
         'instructor_id',
+
         'title',
+
         'slug',
+
         'short_description',
+
         'description',
+
         'price',
+
         'level',
+
         'image',
+
         'status',
+
         'start_date',
+
         'end_date',
+
         'maximum_students',
+
     ];
+
+
 
 
 
     protected $casts = [
-        'start_date' => 'date',
-        'end_date' => 'date',
-        'price' => 'decimal:2',
+
+        'start_date'=>'datetime',
+
+        'end_date'=>'datetime',
+
     ];
 
 
 
-    public function category(): BelongsTo
+
+
+    public function category()
     {
-        return $this->belongsTo(Category::class);
+        return $this->belongsTo(
+            Category::class
+        );
     }
 
 
 
-    public function instructor(): BelongsTo
+
+
+    public function instructor()
     {
         return $this->belongsTo(
             User::class,
@@ -58,7 +83,9 @@ class Course extends Model
 
 
 
-    public function sections(): HasMany
+
+
+    public function sections()
     {
         return $this->hasMany(
             CourseSection::class
@@ -67,7 +94,20 @@ class Course extends Model
 
 
 
-    public function assignments(): HasMany
+
+
+    public function enrollments()
+    {
+        return $this->hasMany(
+            Enrollment::class
+        );
+    }
+
+
+
+
+
+    public function assignments()
     {
         return $this->hasMany(
             Assignment::class
@@ -76,10 +116,6 @@ class Course extends Model
 
 
 
-    public function enrollments(): HasMany
-    {
-        return $this->hasMany(
-            Enrollment::class
-        );
-    }
+
+
 }
